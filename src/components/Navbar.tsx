@@ -20,17 +20,39 @@ const Navbar: React.FC = () => {
       
       // Update active section based on scroll position
       if (location.pathname === '/') {
-        const sections = ['home', 'about-preview', 'expertise', 'projects', 'testimonials'];
-        const currentSection = sections.find(section => {
+        const sections = ['home', 'about', 'experience', 'projects', 'skills', 'blog', 'contact'];
+        let currentSection = sections.find(section => {
+  const element = document.getElementById(section);
+  if (element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top <= 100 && rect.bottom >= 100;
+  }
+  return false;
+}) || 'home';
+
+        // Find the section that's most in view
+        let maxVisibleArea = 0;
+        sections.forEach(section => {
           const element = document.getElementById(section);
           if (element) {
             const rect = element.getBoundingClientRect();
-            return rect.top <= 100 && rect.bottom >= 100;
+            const viewportHeight = window.innerHeight;
+            
+            // Calculate visible area of the section
+            const visibleTop = Math.max(0, rect.top);
+            const visibleBottom = Math.min(viewportHeight, rect.bottom);
+            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+            
+            // If this section has more visible area, make it active
+            if (visibleHeight > maxVisibleArea && rect.top < viewportHeight * 0.6) {
+              maxVisibleArea = visibleHeight;
+              currentSection = section;
+            }
           }
-          return false;
         });
+        
         if (currentSection) {
-          setActiveSection(currentSection === 'about-preview' ? 'about' : currentSection);
+          setActiveSection(currentSection);
         }
       } else {
         setActiveSection(location.pathname.slice(1) || 'home');
@@ -69,11 +91,11 @@ const Navbar: React.FC = () => {
     if (location.pathname !== '/') {
       navigate('/');
       setTimeout(() => {
-        const element = document.getElementById(sectionId === 'about' ? 'about-preview' : sectionId);
+        const element = document.getElementById(sectionId);
         element?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } else {
-      const element = document.getElementById(sectionId === 'about' ? 'about-preview' : sectionId);
+      const element = document.getElementById(sectionId);
       element?.scrollIntoView({ behavior: 'smooth' });
     }
     setIsOpen(false);
@@ -90,7 +112,7 @@ const Navbar: React.FC = () => {
   ];
 
   const isActive = (itemId: string) => {
-    if (location.pathname === '/' && (itemId === 'home' || itemId === 'about' || itemId === 'projects')) {
+    if (location.pathname === '/' && (itemId === 'home' || itemId === 'about' || itemId === 'projects' || itemId === 'experience' || itemId === 'skills' || itemId === 'blog' || itemId === 'contact')) {
       return activeSection === itemId;
     }
     return location.pathname === `/${itemId}` || (itemId === 'home' && location.pathname === '/');

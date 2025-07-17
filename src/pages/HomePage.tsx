@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowRight, Download, Award, Users, Target, TrendingUp, Globe, Microscope, FlaskConical, Zap, ChevronLeft, ChevronRight, Play, Star, Quote, ChevronDown, Beaker, Atom, Leaf, Factory } from 'lucide-react';
+import { ArrowRight, Download, Award, Users, Target, TrendingUp, Globe, Microscope, FlaskConical, Zap, ChevronLeft, ChevronRight, Play, Star, Quote, ChevronDown, Beaker, Atom, Leaf, Factory, Calendar, MapPin, Briefcase, Code, Mail, Phone, Send, Linkedin, Github, Twitter, BookOpen, Search, Tag, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
 
@@ -8,7 +8,15 @@ const HomePage: React.FC = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [currentProjectSlide, setCurrentProjectSlide] = useState(0);
   const [statsAnimated, setStatsAnimated] = useState(false);
-  const { projects, experiences } = useContent();
+  const [skillsAnimated, setSkillsAnimated] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { projects, experiences, skills, blogPosts } = useContent();
 
   const heroSlides = [
     {
@@ -161,17 +169,26 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const statsSection = document.getElementById('stats-section');
+      const skillsSection = document.getElementById('skills-section');
+      
       if (statsSection && !statsAnimated) {
         const rect = statsSection.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           setStatsAnimated(true);
         }
       }
+      
+      if (skillsSection && !skillsAnimated) {
+        const rect = skillsSection.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          setSkillsAnimated(true);
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [statsAnimated]);
+  }, [statsAnimated, skillsAnimated]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -194,6 +211,30 @@ const HomePage: React.FC = () => {
     link.href = 'data:application/pdf;base64,';
     link.download = 'John_Doe_Resume.pdf';
     link.click();
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setIsSubmitted(true);
+    setContactForm({ name: '', email: '', subject: '', message: '' });
+    setTimeout(() => setIsSubmitted(false), 3000);
+  };
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setContactForm({
+      ...contactForm,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
   return (
@@ -313,7 +354,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* About Preview */}
-      <section id="about-preview" className="section-padding bg-gray-50">
+      <section id="about" className="section-padding bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="fade-in">
@@ -328,6 +369,28 @@ const HomePage: React.FC = () => {
                 My work focuses on creating eco-friendly fertilizers, sustainable materials, and 
                 water purification systems that make a real difference in communities worldwide.
               </p>
+              
+              {/* Education */}
+              <div className="space-y-4 mb-8">
+                <h3 className="text-xl font-semibold text-gray-900">Education</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full mr-3"></div>
+                    <div>
+                      <p className="font-medium text-gray-900">M.S. in Chemistry</p>
+                      <p className="text-sm text-gray-600">University of California, Berkeley (2020-2022)</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full mr-3"></div>
+                    <div>
+                      <p className="font-medium text-gray-900">B.S. in Chemistry</p>
+                      <p className="text-sm text-gray-600">Stanford University (2016-2020)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
               <Link to="/about" className="btn-primary-emerald inline-flex items-center">
                 Learn More About Me
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -353,33 +416,62 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Expertise Grid */}
-      <section id="expertise" className="section-padding bg-white">
+      {/* Experience Section */}
+      <section id="experience" className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 fade-in">
-            <h2 className="heading-lg text-gray-900 mb-4">Areas of Expertise</h2>
+            <h2 className="heading-lg text-gray-900 mb-4">Professional Experience</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Specialized knowledge across multiple chemistry disciplines, focused on sustainable innovation
+              A journey through impactful roles in chemistry research and environmental sustainability
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {expertise.map((area, index) => {
-              const IconComponent = area.icon;
-              return (
-                <div 
-                  key={index}
-                  className="modern-card hover-lift fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className={`w-14 h-14 bg-gradient-to-r ${area.color} rounded-xl flex items-center justify-center mb-6`}>
-                    <IconComponent className="h-7 w-7 text-white" />
+          <div className="max-w-4xl mx-auto">
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-emerald-200"></div>
+              
+              <div className="space-y-12">
+                {experiences.map((experience, index) => (
+                  <div 
+                    key={experience.id}
+                    className={`relative fade-in`}
+                    style={{ animationDelay: `${index * 0.2}s` }}
+                  >
+                    {/* Timeline dot */}
+                    <div className="absolute left-6 w-4 h-4 bg-emerald-600 rounded-full border-4 border-white shadow-lg"></div>
+                    
+                    {/* Experience card */}
+                    <div className="ml-20 bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow duration-300">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">
+                          {experience.title}
+                        </h3>
+                        <div className="flex items-center text-emerald-600 font-medium">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          {experience.date}
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
+                        <div className="flex items-center text-gray-600">
+                          <Briefcase className="h-4 w-4 mr-2" />
+                          {experience.organization}
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          {experience.location}
+                        </div>
+                      </div>
+                      
+                      <p className="text-gray-700 leading-relaxed">
+                        {experience.description}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{area.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{area.description}</p>
-                </div>
-              );
-            })}
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -488,8 +580,339 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* Skills Section */}
+      <section id="skills" className="section-padding bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 fade-in">
+            <h2 className="heading-lg text-gray-900 mb-4">Skills & Expertise</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Technical capabilities and professional competencies developed through years of research
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {skills.map((skill, index) => (
+              <div 
+                key={skill.id}
+                className={`bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300 fade-in`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="flex items-center mb-4">
+                  {skill.category === 'Chemistry' && <Atom className="h-6 w-6 text-emerald-600 mr-3" />}
+                  {skill.category === 'Software' && <Code className="h-6 w-6 text-blue-600 mr-3" />}
+                  {skill.category === 'Soft Skills' && <Users className="h-6 w-6 text-purple-600 mr-3" />}
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900">{skill.name}</h3>
+                    <p className="text-sm text-gray-600">{skill.category}</p>
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">{skill.level}%</span>
+                </div>
+                
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className={`h-2 rounded-full transition-all duration-1000 ease-out ${
+                      skill.category === 'Chemistry' ? 'bg-gradient-to-r from-emerald-500 to-emerald-600' :
+                      skill.category === 'Software' ? 'bg-gradient-to-r from-blue-500 to-blue-600' :
+                      'bg-gradient-to-r from-purple-500 to-purple-600'
+                    }`}
+                    style={{ 
+                      width: skillsAnimated ? `${skill.level}%` : '0%'
+                    }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Skills Summary */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="fade-in">
+              <div className="bg-emerald-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-emerald-600">
+                  {skills.filter(s => s.category === 'Chemistry').length}
+                </span>
+              </div>
+              <h3 className="font-semibold text-gray-900">Chemistry Skills</h3>
+              <p className="text-gray-600 text-sm">Technical competencies</p>
+            </div>
+            
+            <div className="fade-in fade-in-delay-1">
+              <div className="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-blue-600">
+                  {skills.filter(s => s.category === 'Software').length}
+                </span>
+              </div>
+              <h3 className="font-semibold text-gray-900">Software Skills</h3>
+              <p className="text-gray-600 text-sm">Programming languages</p>
+            </div>
+            
+            <div className="fade-in fade-in-delay-2">
+              <div className="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-purple-600">
+                  {skills.filter(s => s.category === 'Soft Skills').length}
+                </span>
+              </div>
+              <h3 className="font-semibold text-gray-900">Soft Skills</h3>
+              <p className="text-gray-600 text-sm">Leadership abilities</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Section */}
+      <section id="blog" className="section-padding bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 fade-in">
+            <h2 className="heading-lg text-gray-900 mb-4">Latest Research Insights</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Sharing knowledge and discoveries in sustainable chemistry and environmental innovation
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {blogPosts.map((post, index) => (
+              <article 
+                key={post.id}
+                className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 fade-in`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {post.image && (
+                  <div className="aspect-w-16 aspect-h-9">
+                    <img 
+                      src={post.image} 
+                      alt={post.title}
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                )}
+                
+                <div className="p-6">
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      {formatDate(post.publishDate)}
+                    </div>
+                    <div className="flex items-center">
+                      <BookOpen className="h-4 w-4 mr-1" />
+                      5 min read
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3 hover:text-emerald-600 transition-colors cursor-pointer">
+                    {post.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 mb-4 leading-relaxed">
+                    {post.body.substring(0, 150)}...
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {post.tags.map((tag) => (
+                      <span 
+                        key={tag}
+                        className="inline-flex items-center px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full"
+                      >
+                        <Tag className="h-3 w-3 mr-1" />
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <button className="text-emerald-600 font-medium hover:text-emerald-700 transition-colors inline-flex items-center">
+                    Read More
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="text-center mt-12 fade-in">
+            <Link to="/blog" className="btn-secondary inline-flex items-center">
+              View All Posts
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="section-padding bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 fade-in">
+            <h2 className="heading-lg text-gray-900 mb-4">Let's Connect</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Ready to collaborate on sustainable chemistry solutions? Let's discuss your project ideas
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Information */}
+            <div className="fade-in">
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-8 rounded-xl">
+                <h3 className="text-2xl font-bold mb-8">Get in Touch</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-center">
+                    <div className="bg-white/20 rounded-lg p-3 mr-4">
+                      <Mail className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Email</h4>
+                      <p className="text-emerald-100">john.doe@email.com</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center">
+                    <div className="bg-white/20 rounded-lg p-3 mr-4">
+                      <Phone className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Phone</h4>
+                      <p className="text-emerald-100">+1 (555) 123-4567</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center">
+                    <div className="bg-white/20 rounded-lg p-3 mr-4">
+                      <MapPin className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Location</h4>
+                      <p className="text-emerald-100">San Francisco, CA</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Social Links */}
+                <div className="mt-8 pt-8 border-t border-white/20">
+                  <h4 className="font-semibold mb-4">Connect on Social Media</h4>
+                  <div className="flex space-x-4">
+                    <a 
+                      href="https://linkedin.com/in/johndoe" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-white/20 text-white p-3 rounded-lg hover:bg-white/30 transition-colors duration-200"
+                    >
+                      <Linkedin className="h-5 w-5" />
+                    </a>
+                    <a 
+                      href="https://github.com/johndoe" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-white/20 text-white p-3 rounded-lg hover:bg-white/30 transition-colors duration-200"
+                    >
+                      <Github className="h-5 w-5" />
+                    </a>
+                    <a 
+                      href="https://twitter.com/johndoe" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="bg-white/20 text-white p-3 rounded-lg hover:bg-white/30 transition-colors duration-200"
+                    >
+                      <Twitter className="h-5 w-5" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="fade-in fade-in-delay-1">
+              <div className="bg-gray-50 rounded-xl p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-8">Send a Message</h3>
+                
+                {isSubmitted ? (
+                  <div className="text-center py-8">
+                    <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Message Sent!</h4>
+                    <p className="text-gray-600">Thank you for reaching out. I'll get back to you soon.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleContactSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                          Your Name
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          required
+                          value={contactForm.name}
+                          onChange={handleContactChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                          placeholder="Enter your name"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                          Email Address
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          required
+                          value={contactForm.email}
+                          onChange={handleContactChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                          placeholder="Enter your email"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                        Subject
+                      </label>
+                      <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        required
+                        value={contactForm.subject}
+                        onChange={handleContactChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                        placeholder="What's this about?"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                        Message
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        required
+                        rows={6}
+                        value={contactForm.message}
+                        onChange={handleContactChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors resize-none"
+                        placeholder="Tell me about your project or collaboration idea..."
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center"
+                    >
+                      <Send className="h-5 w-5 mr-2" />
+                      Send Message
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
-      <section id="testimonials" className="section-padding bg-white">
+      <section className="section-padding bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 fade-in">
             <h2 className="heading-lg text-gray-900 mb-4">What Colleagues Say</h2>
@@ -571,10 +994,13 @@ const HomePage: React.FC = () => {
               Whether it's research collaboration, consulting, or speaking engagements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/contact" className="btn-primary bg-white text-emerald-600 hover:bg-gray-100">
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="btn-primary bg-white text-emerald-600 hover:bg-gray-100"
+              >
                 Get in Touch
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+              </button>
               <button 
                 onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
                 className="btn-secondary border-white text-white hover:bg-white hover:text-emerald-600"
