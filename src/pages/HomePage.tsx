@@ -108,8 +108,7 @@ const HomePage: React.FC = () => {
     { number: '40%', label: 'Emission Reduction', icon: TrendingUp }
   ];
 
-
-
+  
   const expertise = [
     { 
       icon: FlaskConical, 

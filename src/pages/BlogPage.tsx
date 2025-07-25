@@ -47,7 +47,7 @@ const BlogPage: React.FC<BlogProps> = ({ darkMode }) => {
   };
 
   return (
-    <section id="blog" className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+    <section id="blog" className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} `}>
       <div className="max-w-5xl mx-auto px-4">
         <motion.div
           ref={ref}
