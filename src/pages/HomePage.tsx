@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight, Download, Award, Users, Target, TrendingUp, Globe, Microscope, FlaskConical, Zap, ChevronLeft, ChevronRight, Play, Star, Quote, ChevronDown, Beaker, Atom, Leaf, Factory, Calendar, MapPin, Briefcase, Code, Mail, Phone, Send, Linkedin, Github, Twitter, BookOpen, Search, Tag, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
+import SkillsPage from './SkillsPage'; // adjust path if needed
+import ExperiencePage from './ExperiencePage'; // adjust path if needed
+import BlogPage from './BlogPage'; // adjust path if needed
+import CountUp from 'react-countup';
+
 
 const HomePage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -95,12 +100,15 @@ const HomePage: React.FC = () => {
     }
   ];
 
+  
   const stats = [
     { number: '50+', label: 'Research Projects', icon: FlaskConical },
     { number: '15+', label: 'Publications', icon: Award },
     { number: '500+', label: 'Lives Impacted', icon: Users },
     { number: '40%', label: 'Emission Reduction', icon: TrendingUp }
   ];
+
+
 
   const expertise = [
     { 
@@ -417,65 +425,9 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="section-padding bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 fade-in">
-            <h2 className="heading-lg text-gray-900 mb-4">Professional Experience</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              A journey through impactful roles in chemistry research and environmental sustainability
-            </p>
-          </div>
+      <ExperiencePage darkMode={false} />
 
-          <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-emerald-200"></div>
-              
-              <div className="space-y-12">
-                {experiences.map((experience, index) => (
-                  <div 
-                    key={experience.id}
-                    className={`relative fade-in`}
-                    style={{ animationDelay: `${index * 0.2}s` }}
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute left-6 w-4 h-4 bg-emerald-600 rounded-full border-4 border-white shadow-lg"></div>
-                    
-                    {/* Experience card */}
-                    <div className="ml-20 bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow duration-300">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">
-                          {experience.title}
-                        </h3>
-                        <div className="flex items-center text-emerald-600 font-medium">
-                          <Calendar className="h-4 w-4 mr-1" />
-                          {experience.date}
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-                        <div className="flex items-center text-gray-600">
-                          <Briefcase className="h-4 w-4 mr-2" />
-                          {experience.organization}
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <MapPin className="h-4 w-4 mr-2" />
-                          {experience.location}
-                        </div>
-                      </div>
-                      
-                      <p className="text-gray-700 leading-relaxed">
-                        {experience.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* Enhanced Projects Section with Slider */}
       <section id="projects" className="section-padding bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -581,10 +533,9 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="section-padding bg-white">
+<SkillsPage darkMode={false} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 fade-in">
-            <h2 className="heading-lg text-gray-900 mb-4">Skills & Expertise</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Technical capabilities and professional competencies developed through years of research
             </p>
@@ -625,107 +576,20 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Skills Summary */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="fade-in">
-              <div className="bg-emerald-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-emerald-600">
-                  {skills.filter(s => s.category === 'Chemistry').length}
-                </span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Chemistry Skills</h3>
-              <p className="text-gray-600 text-sm">Technical competencies</p>
-            </div>
-            
-            <div className="fade-in fade-in-delay-1">
-              <div className="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">
-                  {skills.filter(s => s.category === 'Software').length}
-                </span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Software Skills</h3>
-              <p className="text-gray-600 text-sm">Programming languages</p>
-            </div>
-            
-            <div className="fade-in fade-in-delay-2">
-              <div className="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-purple-600">
-                  {skills.filter(s => s.category === 'Soft Skills').length}
-                </span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Soft Skills</h3>
-              <p className="text-gray-600 text-sm">Leadership abilities</p>
-            </div>
-          </div>
+          
         </div>
-      </section>
 
       {/* Blog Section */}
+      
       <section id="blog" className="section-padding bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 fade-in">
             <h2 className="heading-lg text-gray-900 mb-4">Latest Research Insights</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Sharing knowledge and discoveries in sustainable chemistry and environmental innovation
-            </p>
+            
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post, index) => (
-              <article 
-                key={post.id}
-                className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 fade-in`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {post.image && (
-                  <div className="aspect-w-16 aspect-h-9">
-                    <img 
-                      src={post.image} 
-                      alt={post.title}
-                      className="w-full h-48 object-cover"
-                    />
-                  </div>
-                )}
-                
-                <div className="p-6">
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                    <div className="flex items-center">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {formatDate(post.publishDate)}
-                    </div>
-                    <div className="flex items-center">
-                      <BookOpen className="h-4 w-4 mr-1" />
-                      5 min read
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3 hover:text-emerald-600 transition-colors cursor-pointer">
-                    {post.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {post.body.substring(0, 150)}...
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {post.tags.map((tag) => (
-                      <span 
-                        key={tag}
-                        className="inline-flex items-center px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full"
-                      >
-                        <Tag className="h-3 w-3 mr-1" />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <button className="text-emerald-600 font-medium hover:text-emerald-700 transition-colors inline-flex items-center">
-                    Read More
-                    <ArrowRight className="ml-1 h-4 w-4" />
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+<BlogPage darkMode={false} />
+
 
           <div className="text-center mt-12 fade-in">
             <Link to="/blog" className="btn-secondary inline-flex items-center">
@@ -996,7 +860,7 @@ const HomePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-primary bg-white text-emerald-600 hover:bg-gray-100"
+                className="btn-secondary border-white text-white hover:bg-white hover:text-emerald-600"
               >
                 Get in Touch
                 <ArrowRight className="ml-2 h-5 w-5" />

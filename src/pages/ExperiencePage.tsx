@@ -1,131 +1,99 @@
-import React from 'react';
-import { Briefcase, MapPin, Calendar, ArrowRight } from 'lucide-react';
-import { useContent } from '../context/ContentContext';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { fadeInUp, staggerContainer } from '../utils/animations';
 
-const ExperiencePage: React.FC = () => {
-  const { experiences } = useContent();
+interface ExperienceProps {
+  darkMode: boolean;
+}
+
+const experiences = [
+  {
+    role: "Environmental Testing Researcher",
+    org: "Agricultural & Industrial Clients",
+    date: "06/2022 – Present",
+    location: "Varanasi, UP",
+    points: [
+      "Conducted soil pH and nutrient analysis for local farmers.",
+      "Performed chemical compatibility tests for fertilizers.",
+      "Developed bio-fertilizer solutions for 50+ farmers.",
+    ]
+  },
+  {
+    role: "Chemical Safety Auditor",
+    org: "Educational Institutions & Industries",
+    date: "01/2022 – 04/2024",
+    location: "Varanasi, UP",
+    points: [
+      "Audited labs for safety compliance in schools and colleges.",
+      "Prepared regulatory documentation for chemical handling."
+    ]
+  },
+  {
+    role: "Laboratory Analysis Consultant",
+    org: "Small Businesses",
+    date: "03/2022 – 02/2024",
+    location: "Varanasi, UP",
+    points: [
+      "Provided water testing for restaurants and treatment plants.",
+      "Supported QC for soft drinks and ice-cream makers."
+    ]
+  },
+  {
+    role: "Chemistry Content Developer",
+    org: "Online Education Platforms",
+    date: "03/2021 – Present",
+    location: "Remote",
+    points: [
+      "Created educational content and experiment guides.",
+      "Worked on course planning with senior product managers."
+    ]
+  }
+];
+
+const ExperiencePage: React.FC<ExperienceProps> = ({ darkMode }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center fade-in-up opacity-0">
-            <Briefcase className="mx-auto h-16 w-16 mb-6" />
-            <h1 className="text-5xl font-bold mb-6">Professional Experience</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              A journey through impactful roles in chemistry research and environmental sustainability
-            </p>
-          </div>
-        </div>
-      </section>
+    <section id="experience" className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          ref={ref}
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-center mb-16"
+        >
+          <motion.h2 variants={fadeInUp} className={`text-4xl md:text-5xl font-bold mb-6  ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            Experience
+          </motion.h2>
+          <motion.p variants={fadeInUp} className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            Key professional roles and research-based work experience in chemistry and environmental sciences.
+          </motion.p>
+        </motion.div>
 
-      {/* Experience Timeline */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-emerald-200"></div>
-            
-            <div className="space-y-12">
-              {experiences.map((experience, index) => (
-                <div 
-                  key={experience.id}
-                  className={`relative fade-in-up opacity-0 stagger-${index + 1}`}
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute left-6 w-4 h-4 bg-emerald-600 rounded-full border-4 border-white shadow-lg"></div>
-                  
-                  {/* Experience card */}
-                  <div className="ml-20 bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2 md:mb-0">
-                        {experience.title}
-                      </h3>
-                      <div className="flex items-center text-emerald-600 font-medium">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        {experience.date}
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-                      <div className="flex items-center text-gray-600">
-                        <Briefcase className="h-4 w-4 mr-2" />
-                        {experience.organization}
-                      </div>
-                      <div className="flex items-center text-gray-600">
-                        <MapPin className="h-4 w-4 mr-2" />
-                        {experience.location}
-                      </div>
-                    </div>
-                    
-                    <p className="text-gray-700 leading-relaxed mb-6">
-                      {experience.description}
-                    </p>
-                    
-                    {/* Key achievements */}
-                    <div className="bg-emerald-50 rounded-lg p-4">
-                      <h4 className="font-semibold text-emerald-800 mb-2">Key Achievements:</h4>
-                      <ul className="space-y-2">
-                        <li className="flex items-start text-emerald-700">
-                          <ArrowRight className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Improved safety protocols and reduced incidents by 30%</span>
-                        </li>
-                        <li className="flex items-start text-emerald-700">
-                          <ArrowRight className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Developed innovative testing methodologies</span>
-                        </li>
-                        <li className="flex items-start text-emerald-700">
-                          <ArrowRight className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
-                          <span>Mentored junior researchers and interns</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          {experiences.map((exp, i) => (
+            <motion.div
+              key={i}
+              variants={fadeInUp}
+              className={`p-6 rounded-2xl shadow-lg transition-transform transform hover:scale-[1.02] duration-300 ${
+                darkMode ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-white border border-gray-200 text-gray-800'
+              }`}
+            >
+              <h3 className="text-xl font-bold">{exp.role}</h3>
+              <p className="text-sm text-emerald-500">{exp.org}</p>
+              <p className="text-sm italic mb-2">{exp.date} | {exp.location}</p>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                {exp.points.map((pt, idx) => (
+                  <li key={idx}>{pt}</li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
         </div>
-      </section>
-
-      {/* Skills developed */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 fade-in-up opacity-0">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Skills Developed</h2>
-            <p className="text-gray-600">Core competencies gained through professional experience</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { skill: 'Chemical Safety Auditing', level: 95 },
-              { skill: 'Environmental Compliance', level: 90 },
-              { skill: 'Research Methodology', level: 88 },
-              { skill: 'Team Leadership', level: 82 },
-              { skill: 'Data Analysis', level: 85 },
-              { skill: 'Project Management', level: 78 }
-            ].map((item, index) => (
-              <div 
-                key={index}
-                className={`bg-gray-50 rounded-lg p-6 fade-in-up opacity-0 stagger-${index + 1}`}
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold text-gray-900">{item.skill}</h3>
-                  <span className="text-sm text-gray-600">{item.level}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-emerald-500 to-blue-500 h-2 rounded-full transition-all duration-1000"
-                    style={{ width: `${item.level}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 

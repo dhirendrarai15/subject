@@ -101,15 +101,16 @@ const Navbar: React.FC = () => {
     setIsOpen(false);
   };
 
-  const navItems = [
-    { id: 'home', label: 'Home', action: () => scrollToSection('home') },
-    { id: 'about', label: 'About', action: () => scrollToSection('about') },
-    { id: 'experience', label: 'Experience', path: '/experience' },
-    { id: 'projects', label: 'Projects', action: () => scrollToSection('projects') },
-    { id: 'skills', label: 'Skills', path: '/skills' },
-    { id: 'blog', label: 'Blog', path: '/blog' },
-    { id: 'contact', label: 'Contact', path: '/contact' },
-  ];
+const navItems = [
+  { id: 'home', label: 'Home', action: () => scrollToSection('home') },
+  { id: 'about', label: 'About', action: () => scrollToSection('about') },
+  { id: 'experience', label: 'Experience', action: () => scrollToSection('experience') },
+  { id: 'projects', label: 'Projects', action: () => scrollToSection('projects') },
+  { id: 'skills', label: 'Skills', action: () => scrollToSection('skills') }, // ✅ updated
+  { id: 'blog', label: 'Blog', action: () => scrollToSection('blog') },
+  { id: 'contact', label: 'Contact', action: () => scrollToSection('contact') }
+];
+
 
   const isActive = (itemId: string) => {
     if (location.pathname === '/' && (itemId === 'home' || itemId === 'about' || itemId === 'projects' || itemId === 'experience' || itemId === 'skills' || itemId === 'blog' || itemId === 'contact')) {

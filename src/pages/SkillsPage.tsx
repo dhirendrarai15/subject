@@ -1,181 +1,147 @@
-import React, { useEffect, useState } from 'react';
-import { Atom, Code, Users, TrendingUp } from 'lucide-react';
-import { useContent } from '../context/ContentContext';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Beaker, Code, Search, FlaskConical, TrendingUp } from 'lucide-react';
+import { fadeInUp, staggerContainer } from '../utils/animations';
+import { skills } from '../data/portfolio'; // Make sure this exists
 
-const SkillsPage: React.FC = () => {
-  const { skills } = useContent();
-  const [animatedSkills, setAnimatedSkills] = useState(false);
+interface SkillsProps {
+  darkMode: boolean;
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => setAnimatedSkills(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
+const SkillsPage: React.FC<SkillsProps> = ({ darkMode }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const skillCategories = {
-    'Chemistry': { icon: Atom, color: 'emerald', bgColor: 'emerald-50' },
-    'Software': { icon: Code, color: 'blue', bgColor: 'blue-50' },
-    'Soft Skills': { icon: Users, color: 'purple', bgColor: 'purple-50' }
+  const categoryIcons = {
+    analytical: Search,
+    software: Code,
+    research: FlaskConical,
+    laboratory: Beaker,
+    chemistry: Beaker,
+    'soft skills': TrendingUp
   };
 
-  const getSkillsByCategory = (category: string) => {
-    return skills.filter(skill => skill.category === category);
+  const categoryColors = {
+    analytical: 'from-blue-500 to-cyan-500',
+    software: 'from-purple-500 to-pink-500',
+    research: 'from-emerald-500 to-teal-500',
+    laboratory: 'from-orange-500 to-red-500',
+    chemistry: 'from-emerald-500 to-teal-500',
+    'soft skills': 'from-purple-500 to-indigo-500'
   };
+
+  const groupedSkills = skills.reduce((acc, skill) => {
+    const key = skill.category.toLowerCase();
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(skill);
+    return acc;
+  }, {} as Record<string, typeof skills>);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center fade-in-up opacity-0">
-            <TrendingUp className="mx-auto h-16 w-16 mb-6" />
-            <h1 className="text-5xl font-bold mb-6">Skills & Expertise</h1>
-            <p className="text-xl text-purple-100 max-w-3xl mx-auto">
-              A comprehensive overview of technical capabilities and professional competencies
-            </p>
-          </div>
-        </div>
-      </section>
+    <section id="skills" className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          ref={ref}
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="text-center mb-16"
+        >
+          <motion.h2 
+            variants={fadeInUp}
+            className={`text-4xl md:text-5xl font-bold mb-6 ${
+              darkMode ? 'text-white' : 'text-gray-900'
+            }`}
+          >
+            Skills & Expertise
+          </motion.h2>
+          <motion.div 
+            variants={fadeInUp}
+            className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mb-8"
+          />
+          <motion.p
+            variants={fadeInUp}
+            className={`text-lg max-w-3xl mx-auto ${
+              darkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}
+          >
+            Technical capabilities and professional competencies developed through years of research
+          </motion.p>
+        </motion.div>
 
-      {/* Skills Categories */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-12">
-            {Object.entries(skillCategories).map(([category, config], categoryIndex) => {
-              const categorySkills = getSkillsByCategory(category);
-              const IconComponent = config.icon;
-              
-              return (
-                <div 
-                  key={category}
-                  className={`fade-in-up opacity-0 stagger-${categoryIndex + 1}`}
-                >
-                  {/* Category Header */}
-                  <div className="text-center mb-8">
-                    <div className={`inline-flex items-center justify-center w-16 h-16 bg-${config.color}-100 rounded-full mb-4`}>
-                      <IconComponent className={`h-8 w-8 text-${config.color}-600`} />
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-900 mb-2">{category}</h2>
-                    <p className="text-gray-600">
-                      {category === 'Chemistry' && 'Technical expertise in chemical sciences and research'}
-                      {category === 'Software' && 'Programming and computational tools for research'}
-                      {category === 'Soft Skills' && 'Leadership and communication abilities'}
-                    </p>
-                  </div>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="grid lg:grid-cols-2 gap-8"
+        >
+          {Object.entries(groupedSkills).map(([category, categorySkills]) => {
+            const Icon = categoryIcons[category as keyof typeof categoryIcons] || TrendingUp;
+            const colorClass = categoryColors[category as keyof typeof categoryColors] || 'from-gray-500 to-gray-700';
 
-                  {/* Skills Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {categorySkills.map((skill, skillIndex) => (
-                      <div 
-                        key={skill.id}
-                        className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 border-${config.color}-500`}
-                      >
-                        <div className="flex justify-between items-center mb-3">
-                          <h3 className="font-semibold text-gray-900">{skill.name}</h3>
-                          <span className={`text-sm font-medium text-${config.color}-600`}>
-                            {skill.level}%
-                          </span>
-                        </div>
-                        
-                        {/* Skill Progress Bar */}
-                        <div className="relative">
-                          <div className="w-full bg-gray-200 rounded-full h-3">
-                            <div 
-                              className={`bg-gradient-to-r from-${config.color}-500 to-${config.color}-600 h-3 rounded-full transition-all duration-1000 ease-out`}
-                              style={{ 
-                                width: animatedSkills ? `${skill.level}%` : '0%'
-                              }}
-                            ></div>
-                          </div>
-                          
-                          {/* Skill Level Indicator */}
-                          <div className="flex justify-between text-xs text-gray-500 mt-1">
-                            <span>Beginner</span>
-                            <span>Expert</span>
-                          </div>
-                        </div>
-                        
-                        {/* Skill Description */}
-                        <div className={`mt-4 p-3 bg-${config.bgColor} rounded-lg`}>
-                          <p className={`text-${config.color}-700 text-sm`}>
-                            {getSkillDescription(skill.name, skill.level)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+            return (
+              <motion.div
+                key={category}
+                variants={fadeInUp}
+                className={`p-8 rounded-2xl transition-all duration-300 ${
+                  darkMode 
+                    ? 'bg-gray-800 border border-gray-700' 
+                    : 'bg-gray-50 border border-gray-200 hover:shadow-lg'
+                }`}
+              >
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${colorClass} flex items-center justify-center`}>
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
+                  <h3 className={`text-xl font-bold capitalize ${
+                    darkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    {category} Skills
+                  </h3>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
-      {/* Skill Summary */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Continuous Learning</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="fade-in-up opacity-0 stagger-1">
-              <div className="bg-emerald-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-emerald-600">
-                  {skills.filter(s => s.category === 'Chemistry').length}
-                </span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Chemistry Skills</h3>
-              <p className="text-gray-600 text-sm">Technical competencies</p>
-            </div>
-            
-            <div className="fade-in-up opacity-0 stagger-2">
-              <div className="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600">
-                  {skills.filter(s => s.category === 'Software').length}
-                </span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Software Skills</h3>
-              <p className="text-gray-600 text-sm">Programming languages</p>
-            </div>
-            
-            <div className="fade-in-up opacity-0 stagger-3">
-              <div className="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-purple-600">
-                  {skills.filter(s => s.category === 'Soft Skills').length}
-                </span>
-              </div>
-              <h3 className="font-semibold text-gray-900">Soft Skills</h3>
-              <p className="text-gray-600 text-sm">Leadership abilities</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+                <div className="space-y-4">
+                  {categorySkills.map((skill, index) => (
+                    <div 
+                      key={skill.name}
+                      className="space-y-2 hover:scale-[1.01] transition-transform duration-300"
+                    >
+                      <div className="flex justify-between items-center">
+                        <span className={`font-medium ${
+                          darkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          {skill.name}
+                        </span>
+                        <span className={`text-sm font-semibold ${
+                          darkMode ? 'text-emerald-400' : 'text-emerald-600'
+                        }`}>
+                          {skill.level}%
+                        </span>
+                      </div>
+                      <div className={`h-2 rounded-full overflow-hidden ${
+                        darkMode ? 'bg-gray-700' : 'bg-gray-200'
+                      }`}>
+                        <motion.div
+                          className={`h-full bg-gradient-to-r ${colorClass} rounded-full`}
+                          initial={{ width: 0 }}
+                          animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
+                          transition={{ 
+                            duration: 1.5, 
+                            delay: index * 0.1,
+                            ease: 'easeOut'
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
   );
 };
-
-function getSkillDescription(skillName: string, level: number): string {
-  const descriptions: { [key: string]: { [range: string]: string } } = {
-    'Organic Chemistry': {
-      high: 'Advanced expertise in synthesis and mechanism design',
-      medium: 'Solid understanding of organic reactions and pathways',
-      low: 'Basic knowledge of organic chemistry principles'
-    },
-    'Python': {
-      high: 'Proficient in data analysis, automation, and scientific computing',
-      medium: 'Comfortable with basic programming and data manipulation',
-      low: 'Learning fundamentals and syntax'
-    },
-    'Leadership': {
-      high: 'Experienced in managing teams and complex projects',
-      medium: 'Capable of leading small groups and initiatives',
-      low: 'Developing leadership capabilities'
-    }
-  };
-
-  const skillDesc = descriptions[skillName];
-  if (!skillDesc) return 'Continuous development and practical application';
-
-  if (level >= 85) return skillDesc.high;
-  if (level >= 70) return skillDesc.medium;
-  return skillDesc.low;
-}
 
 export default SkillsPage;
