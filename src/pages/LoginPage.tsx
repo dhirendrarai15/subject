@@ -102,6 +102,10 @@ const LoginPage: React.FC = () => {
             </div>
           </div>
         </form>
+        <div className="mt-4 text-center">
+          <span className="text-white">Don't have an account? </span>
+          <a href="/register" className="text-blue-400 underline">Register</a>
+        </div>
       </div>
     </div>
   );

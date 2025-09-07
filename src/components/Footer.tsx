@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
               <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
                 <User className="h-6 w-6 text-white" />
               </div>
-              <span className="font-bold text-xl text-white">John Doe</span>
+              <span className="font-bold text-xl text-white">Chandani Rai</span>
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
               Chemistry researcher and sustainability advocate focused on green chemistry, 
@@ -23,22 +23,22 @@ const Footer: React.FC = () => {
             <div className="space-y-3 mb-6">
               <div className="flex items-center text-gray-300">
                 <Mail className="h-4 w-4 mr-3" />
-                <span>john.doe@email.com</span>
+                <span>chandani.rai1415@gmail.com</span>
               </div>
               <div className="flex items-center text-gray-300">
                 <Phone className="h-4 w-4 mr-3" />
-                <span>+1 (555) 123-4567</span>
+                <span>+91- 7275658524</span>
               </div>
               <div className="flex items-center text-gray-300">
                 <MapPin className="h-4 w-4 mr-3" />
-                <span>San Francisco, CA</span>
+                <span>Varanasi, Uttar Pradesh</span>
               </div>
             </div>
             
             {/* Social Links */}
             <div className="flex space-x-4">
               <a 
-                href="https://linkedin.com/in/johndoe" 
+                href="https://linkedin.com/in/chandani-rai-b29667244" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
                 <Linkedin className="h-5 w-5 text-white" />
               </a>
               <a 
-                href="https://github.com/johndoe" 
+                href="hhttps://github.com/chandanirai1415-dev" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
                 <Github className="h-5 w-5 text-white" />
               </a>
               <a 
-                href="https://twitter.com/johndoe" 
+                href="hhttps://twitter.com/Rai1415Rai" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
                 <Twitter className="h-5 w-5 text-white" />
               </a>
               <a 
-                href="mailto:john.doe@email.com"
+                href="mailto: chandani.rai1415@gmail.com"
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
               >
                 <Mail className="h-5 w-5 text-white" />
@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-700 pt-8 pb-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} John Doe. All rights reserved. Built with React and modern web technologies.
+              © {new Date().getFullYear()} StreamX. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <a href="/privacy" className="footer-link">Privacy Policy</a>

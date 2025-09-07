@@ -23,16 +23,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Mock authentication - in production, this would call a real API
-    if (email === 'admin@johndoe.com' && password === 'chemistry123') {
-      const userData = { email, name: 'John Doe' };
-      localStorage.setItem('authToken', 'mock-jwt-token');
-      localStorage.setItem('userData', JSON.stringify(userData));
-      setIsAuthenticated(true);
-      setUser(userData);
-      return true;
+    try {
+      const res = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: email, password }),
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("userData", JSON.stringify({ email }));
+        setIsAuthenticated(true);
+        setUser({ email, name: "" });
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
     }
-    return false;
   };
 
   const logout = () => {

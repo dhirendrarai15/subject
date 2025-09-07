@@ -59,15 +59,30 @@ const AdminDashboard: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (type: string, id: string) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      if (type === 'experiences') {
-        deleteExperience(id);
-      } else if (type === 'projects') {
-        deleteProject(id);
-      }
-    }
-  };
+const handleDelete = (type: string, id: string) => {
+  if (!window.confirm('Are you sure you want to delete this item?')) return;
+
+  switch (type) {
+    case 'experiences':
+      deleteExperience(id);
+      break;
+    case 'projects':
+      deleteProject(id);
+      break;
+    case 'certifications':
+      deleteCertification(id);
+      break;
+    case 'blog':
+      deleteBlogPost(id);
+      break;
+    case 'skills':
+      deleteSkill(id);
+      break;
+    default:
+      break;
+  }
+};
+
 
   const handleSave = (formData: any) => {
     if (editingItem) {
@@ -115,17 +130,18 @@ const AdminDashboard: React.FC = () => {
     link.click();
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-6">
-            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-gray-600 mt-1">Manage your portfolio content</p>
-          </div>
+return (
+  <div className="min-h-screen bg-gray-50 pt-20">
+    {/* Header */}
+    <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="py-6">
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+          <p className="text-gray-600 mt-1">Manage your portfolio content</p>
         </div>
       </div>
+    </div>
+
 
       {/* Tabs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -238,16 +254,29 @@ const AdminDashboard: React.FC = () => {
           )}
 
           {activeTab === 'certifications' && (
-            <CertificationsTable certifications={certifications} onEdit={handleEdit} />
-          )}
+  <CertificationsTable 
+    certifications={certifications} 
+    onEdit={handleEdit} 
+    onDelete={(id) => handleDelete('certifications', id)}
+  />
+)}
 
-          {activeTab === 'blog' && (
-            <BlogTable blogPosts={blogPosts} onEdit={handleEdit} />
-          )}
+{activeTab === 'blog' && (
+  <BlogTable 
+    blogPosts={blogPosts} 
+    onEdit={handleEdit} 
+    onDelete={(id) => handleDelete('blog', id)}
+  />
+)}
 
-          {activeTab === 'skills' && (
-            <SkillsTable skills={skills} onEdit={handleEdit} />
-          )}
+{activeTab === 'skills' && (
+  <SkillsTable 
+    skills={skills} 
+    onEdit={handleEdit} 
+    onDelete={(id) => handleDelete('skills', id)}
+  />
+)}
+
         </div>
       </div>
 
@@ -362,13 +391,20 @@ const CertificationsTable = ({ certifications, onEdit }: any) => (
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{cert.platform}</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{cert.year}</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button
-                onClick={() => onEdit(cert)}
-                className="text-emerald-600 hover:text-emerald-900"
-              >
-                <Edit className="h-4 w-4" />
-              </button>
-            </td>
+  <button
+    onClick={() => onEdit(cert)}
+    className="text-emerald-600 hover:text-emerald-900 mr-4"
+  >
+    <Edit className="h-4 w-4" />
+  </button>
+  <button
+    onClick={() => onDelete(cert.id)}
+    className="text-red-600 hover:text-red-900"
+  >
+    <Trash2 className="h-4 w-4" />
+  </button>
+</td>
+
           </tr>
         ))}
       </tbody>
@@ -396,13 +432,20 @@ const BlogTable = ({ blogPosts, onEdit }: any) => (
               {post.tags.slice(0, 2).join(', ')}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button
-                onClick={() => onEdit(post)}
-                className="text-emerald-600 hover:text-emerald-900"
-              >
-                <Edit className="h-4 w-4" />
-              </button>
-            </td>
+  <button
+    onClick={() => onEdit(post)}
+    className="text-emerald-600 hover:text-emerald-900 mr-4"
+  >
+    <Edit className="h-4 w-4" />
+  </button>
+  <button
+    onClick={() => onDelete(post.id)}
+    className="text-red-600 hover:text-red-900"
+  >
+    <Trash2 className="h-4 w-4" />
+  </button>
+</td>
+
           </tr>
         ))}
       </tbody>
@@ -428,13 +471,20 @@ const SkillsTable = ({ skills, onEdit }: any) => (
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{skill.category}</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{skill.level}%</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button
-                onClick={() => onEdit(skill)}
-                className="text-emerald-600 hover:text-emerald-900"
-              >
-                <Edit className="h-4 w-4" />
-              </button>
-            </td>
+  <button
+    onClick={() => onEdit(skill)}
+    className="text-emerald-600 hover:text-emerald-900 mr-4"
+  >
+    <Edit className="h-4 w-4" />
+  </button>
+  <button
+    onClick={() => onDelete(skill.id)}
+    className="text-red-600 hover:text-red-900"
+  >
+    <Trash2 className="h-4 w-4" />
+  </button>
+</td>
+
           </tr>
         ))}
       </tbody>

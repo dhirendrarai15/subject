@@ -80,7 +80,22 @@ const Navbar: React.FC = () => {
       }
     } else if (authMode === 'register') {
       // Mock registration
-      alert('Registration functionality would be implemented here');
+      // Registration API call
+      try {
+        const res = await fetch("http://localhost:5000/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: authData.email, password: authData.password }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert("Registration successful! You can now log in.");
+        } else {
+          alert(data.error || "Registration failed.");
+        }
+      } catch {
+        alert("Server error.");
+      }
     } else if (authMode === 'forgot') {
       // Mock forgot password
       alert('Password reset email would be sent');
@@ -132,7 +147,7 @@ const navItems = [
                 <Atom className="h-6 w-6 text-white" />
               </div>
               <span className="font-bold text-xl bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                John Doe
+                Chandani Rai
               </span>
             </Link>
 
@@ -141,7 +156,7 @@ const navItems = [
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={item.action || (() => navigate(item.path!))}
+                  onClick={item.action}
                   className={`nav-link ${isActive(item.id) ? 'active' : ''} ${
                     scrolled ? 'text-gray-700' : 'text-white'
                   }`}
@@ -172,14 +187,7 @@ const navItems = [
                 </>
               )}
               
-              {!isAuthenticated && (
-                <button
-                  onClick={() => setShowAuthModal(true)}
-                  className="btn-primary-emerald text-sm"
-                >
-                  Login
-                </button>
-              )}
+             
             </div>
 
             {/* Mobile menu button */}
@@ -203,7 +211,7 @@ const navItems = [
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={item.action || (() => navigate(item.path!))}
+                  onClick={item.action}
                   className={`block w-full text-left px-3 py-2 text-base font-medium rounded-md transition-colors ${
                     isActive(item.id)
                       ? 'text-emerald-600 bg-emerald-50'
@@ -237,17 +245,8 @@ const navItems = [
                 </>
               )}
               
-              {!isAuthenticated && (
-                <button
-                  onClick={() => {
-                    setShowAuthModal(true);
-                    setIsOpen(false);
-                  }}
-                  className="block w-full text-left px-3 py-2 text-base font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-md hover:from-emerald-600 hover:to-teal-700 transition-all"
-                >
-                  Login
-                </button>
-              )}
+             
+                
             </div>
           </div>
         )}
