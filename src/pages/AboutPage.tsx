@@ -37,7 +37,7 @@ const AboutPage: React.FC = () => {
     {
       degree: 'B.S. in Computer Applications',
       school: 'Mahatma Gandhi Kashi Vidyapith, Varanasi (U.P.)',
-      year: '2014-present',
+      year: '2024-present',
       focus: 'Artifical Intelligence and Data Science'
     }
   ];
