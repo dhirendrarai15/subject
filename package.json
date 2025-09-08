@@ -11,6 +11,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@dataconnect/generated": "file:src/dataconnect-generated",
     "@types/react-slick": "^0.23.13",
     "cors": "^2.8.5",
     "framer-motion": "^12.23.9",
