@@ -22,9 +22,9 @@ const ProjectsPage: React.FC = () => {
       <section className="relative bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center fade-in-up opacity-0">
-            <h1 className="text-5xl font-bold mb-6">Research Projects</h1>
+            <h1 className="text-5xl font-bold mb-6">Testing Domains</h1>
             <p className="text-xl text-emerald-100 max-w-3xl mx-auto">
-              Innovative solutions for sustainable chemistry and environmental challenges
+              Water, soil, air, stack, noise and illumination testing in a NABL-accredited (ISO/IEC 17025) laboratory
             </p>
           </div>
         </div>
@@ -39,7 +39,7 @@ const ProjectsPage: React.FC = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search projects..."
+                placeholder="Search testing domains..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
@@ -126,7 +126,7 @@ const ProjectsPage: React.FC = () => {
           
           {filteredProjects.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No projects found matching your criteria.</p>
+              <p className="text-gray-500 text-lg">No testing domains found matching your criteria.</p>
             </div>
           )}
         </div>
@@ -135,9 +135,9 @@ const ProjectsPage: React.FC = () => {
       {/* Call to Action */}
       <section className="py-16 bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Interested in Collaboration?</h2>
+          <h2 className="text-3xl font-bold mb-4">Need a Reliable QC / Analytical Chemist?</h2>
           <p className="text-xl text-emerald-100 mb-8">
-            Let's work together to create sustainable solutions for tomorrow's challenges
+            Open to roles in water, environmental, pharma and manufacturing testing labs
           </p>
           <a 
             href="/contact"

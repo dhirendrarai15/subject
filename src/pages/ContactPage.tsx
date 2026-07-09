@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Linkedin, Github, Twitter, CheckCircle } from 'lucide-react';
+import { Mail, MapPin, Send, Linkedin, Github, Twitter, CheckCircle } from 'lucide-react';
+
+// Web3Forms access key.
+// Get it free at https://web3forms.com — enter chandani.rai1415@gmail.com,
+// the key arrives in that inbox instantly. Paste it below (replace the placeholder).
+const WEB3FORMS_ACCESS_KEY = '4c2847ab-a125-4036-9a3a-b4293b066ca3';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -22,15 +27,51 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setError('');
-    
+
+    // Client-side validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setError('Please fill in your name, email and message.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Free form backend (Web3Forms): delivers submissions to the portfolio
+      // owner's inbox, marked as coming from the portfolio website.
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        signal: controller.signal,
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: `Portfolio contact: ${formData.subject.trim() || 'New message'}`,
+          message: formData.message.trim(),
+          from_name: 'Chandani Rai — Portfolio Website',
+          source: 'portfolio-site-2ed0e.web.app'
+        })
+      });
+      clearTimeout(timeout);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success !== true) {
+        throw new Error(data.message || 'Submission failed');
+      }
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
-      setError("Network error. Please check your connection and try again.");
+      console.error('Contact form submission failed:', err);
+      const detail = err instanceof Error && err.message && err.message !== 'Submission failed'
+        ? ` (${err.message})`
+        : '';
+      setError(`Something went wrong while sending your message${detail}. Please try again, or email me directly.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -45,7 +86,7 @@ const ContactPage = () => {
             <Mail className="mx-auto h-16 w-16 mb-6" />
             <h1 className="text-5xl font-bold mb-6">Let's Connect</h1>
             <p className="text-xl text-teal-100 max-w-3xl mx-auto">
-              Ready to collaborate on sustainable chemistry solutions? Let's discuss your project ideas
+              Hiring a QC / Analytical Chemist, or need reliable water and environmental testing expertise? Let's talk
             </p>
           </div>
         </div>
@@ -78,29 +119,12 @@ const ContactPage = () => {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 rounded-lg p-3">
-                      <Phone className="h-6 w-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                      <a 
-                        href="tel:+917275658524"
-                        className="text-blue-600 hover:text-blue-700 transition-colors"
-                      >
-                        +91 7275658524
-                      </a>
-                      <p className="text-sm text-gray-500">Available Mon-Fri, 9AM-5PM IST</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
                     <div className="bg-green-100 rounded-lg p-3">
                       <MapPin className="h-6 w-6 text-green-600" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Location</h3>
-                      <p className="text-gray-600">Varanasi, Uttar Pradesh</p>
-                      <p className="text-sm text-gray-500">Open to remote collaboration</p>
+                      <p className="text-gray-600">Delhi, India</p>
                     </div>
                   </div>
                 </div>
@@ -141,18 +165,11 @@ const ContactPage = () => {
                   <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
                   <div className="space-y-3">
                     <a 
-                      href="mailto:chandani.rai1415@gmail.com?subject=Research Collaboration Inquiry"
+                      href="mailto:chandani.rai1415@gmail.com?subject=Opportunity for QC / Analytical Chemist"
                       className="w-full bg-teal-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors duration-200 flex items-center justify-center"
                     >
                       <Mail className="h-4 w-4 mr-2" />
                       Send Email
-                    </a>
-                    <a 
-                      href="tel:+917275658524"
-                      className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center"
-                    >
-                      <Phone className="h-4 w-4 mr-2" />
-                      Call Now
                     </a>
                   </div>
                 </div>
@@ -177,7 +194,7 @@ const ContactPage = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                     {error && (
                       <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
                         {error}
@@ -192,6 +209,7 @@ const ContactPage = () => {
                         <input
                           type="text"
                           name="name"
+                          required
                           value={formData.name}
                           onChange={handleChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
@@ -206,6 +224,7 @@ const ContactPage = () => {
                         <input
                           type="email"
                           name="email"
+                          required
                           value={formData.email}
                           onChange={handleChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
@@ -235,15 +254,16 @@ const ContactPage = () => {
                       <textarea
                         name="message"
                         rows={6}
+                        required
                         value={formData.message}
                         onChange={handleChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors resize-none"
-                        placeholder="Tell me about your project or collaboration idea..."
+                        placeholder="Tell me about the role or testing requirement..."
                       />
                     </div>
 
                     <button
-                      onClick={handleSubmit}
+                      type="submit"
                       disabled={isSubmitting}
                       className="w-full bg-teal-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
                     >
@@ -281,7 +301,7 @@ const ContactPage = () => {
                         </a>
                       </div>
                     </div>
-                  </div>
+                  </form>
                 )}
               </div>
             </div>
@@ -292,22 +312,22 @@ const ContactPage = () => {
       {/* Research Collaboration CTA */}
       <div className="py-16 bg-gradient-to-r from-teal-600 to-cyan-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Interested in Research Collaboration?</h2>
+          <h2 className="text-3xl font-bold mb-4">How Can I Help?</h2>
           <p className="text-xl text-teal-100 mb-8">
-            I'm always open to discussing new projects in green chemistry and sustainable materials
+            Open to QC and analytical chemist roles in water, environmental, pharma and manufacturing testing labs
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-colors duration-200">
-              <h3 className="font-semibold mb-2">Academic Research</h3>
-              <p className="text-teal-100 text-sm">Joint research projects and publications</p>
+              <h3 className="font-semibold mb-2">Job Opportunities</h3>
+              <p className="text-teal-100 text-sm">QC / analytical chemist roles in testing laboratories</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-colors duration-200">
-              <h3 className="font-semibold mb-2">Industry Consulting</h3>
-              <p className="text-teal-100 text-sm">Sustainable chemistry solutions for businesses</p>
+              <h3 className="font-semibold mb-2">Water & Environmental Testing</h3>
+              <p className="text-teal-100 text-sm">Drinking water, wastewater, soil and air analysis queries</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-colors duration-200">
-              <h3 className="font-semibold mb-2">Speaking Engagements</h3>
-              <p className="text-teal-100 text-sm">Conferences and educational workshops</p>
+              <h3 className="font-semibold mb-2">Lab Quality Systems</h3>
+              <p className="text-teal-100 text-sm">NABL / ISO 17025 documentation, calibration and QC</p>
             </div>
           </div>
         </div>

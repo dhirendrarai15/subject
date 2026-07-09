@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import { FlaskConical, Award, Users, TrendingUp } from "lucide-react";
+import { FlaskConical, Award, Globe, Microscope } from "lucide-react";
 
 const StatsSection: React.FC = () => {
   const [key, setKey] = useState(0);
@@ -14,10 +14,10 @@ const StatsSection: React.FC = () => {
   }, []);
 
   const stats = [
-    { number: 50, suffix: "+", label: "Research Projects", icon: FlaskConical },
-    { number: 15, suffix: "+", label: "Publications", icon: Award },
-    { number: 500, suffix: "+", label: "Lives Impacted", icon: Users },
-    { number: 40, suffix: "%", label: "Emission Reduction", icon: TrendingUp },
+    { number: 15, suffix: "+", label: "Water Parameters Analysed", icon: FlaskConical },
+    { number: 14, suffix: "+", label: "Instruments Operated", icon: Microscope },
+    { number: 6, suffix: "", label: "Testing Domains", icon: Globe },
+    { number: 100, suffix: "%", label: "NABL / ISO 17025 Workflow", icon: Award },
   ];
 
   return (

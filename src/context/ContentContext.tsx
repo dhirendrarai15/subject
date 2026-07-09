@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import soilTestImage from '../assets/soiltestwebp.webp';
 
 export interface Experience {
   id: string;
@@ -66,83 +67,84 @@ const initialData = {
   experiences: [
     {
       id: '1',
-      title: 'Chemical Safety Auditor',
-      organization: 'GreenTech Solutions',
-      date: '2022 - Present',
-      location: 'San Francisco, CA',
-      description: 'Conduct comprehensive safety audits for chemical manufacturing facilities, ensuring compliance with environmental regulations and sustainable practices.'
-    },
-    {
-      id: '2',
-      title: 'Research Assistant',
-      organization: 'University of California',
-      date: '2020 - 2022',
-      location: 'Berkeley, CA',
-      description: 'Conducted research on sustainable agricultural chemicals and eco-friendly pesticide alternatives.'
+      title: 'Chemical Analyst / QC Chemist',
+      organization: 'Eco Care Instruments Pvt. Ltd.',
+      date: 'Dec 2025 - Present',
+      location: 'New Delhi',
+      description: 'Analyse drinking water, groundwater and wastewater for 15+ parameters (pH, TDS, hardness, alkalinity, chloride, sulphate, fluoride, nitrate, COD, BOD, heavy metals) as per IS 3025, APHA & IS 10500 in a NABL-accredited (ISO/IEC 17025) environmental & water testing laboratory.'
     }
   ],
   projects: [
     {
       id: '1',
-      title: 'Eco-Friendly Fertilizer Development',
-      summary: 'Developed a novel organic fertilizer using agricultural waste that increases crop yield by 25%.',
-      impact: 'Reduced chemical runoff by 40% and improved soil health metrics.',
-      image: 'https://images.pexels.com/photos/296230/pexels-photo-296230.jpeg',
-      tags: ['Agriculture', 'Sustainability', 'Organic Chemistry']
+      title: 'Drinking, Ground & Waste Water',
+      summary: 'Physico-chemical analysis of drinking water, groundwater and wastewater for 15+ parameters — pH, TDS, hardness, alkalinity, chloride, sulphate, fluoride, nitrate, COD, BOD and heavy metals.',
+      impact: 'Tested as per IS 3025, APHA and IS 10500, with calibration, QC checks and NABL-format reporting for CPCB/SPCB and clients.',
+      image: 'https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg',
+      tags: ['IS 3025', 'APHA', 'IS 10500']
     },
     {
       id: '2',
-      title: 'Water Purification System',
-      summary: 'Designed a cost-effective water treatment system using activated carbon from coconut shells.',
-      impact: 'Provided clean water access to 500+ families in rural communities.',
-      image: 'https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg',
-      tags: ['Water Treatment', 'Environmental', 'Green Chemistry']
+      title: 'Soil & Sediment',
+      summary: 'Analysis of soil and sediment samples for physico-chemical parameters, supporting environmental monitoring and compliance work.',
+      impact: 'Performed to IS 2720 and standard methods with full traceability and documented QC.',
+      image: soilTestImage,
+      tags: ['IS 2720', 'Wet Chemistry', 'Environmental Monitoring']
     },
     {
       id: '3',
-      title: 'Natural Cosmetics Research',
-      summary: 'Formulated organic skincare products using plant-based extracts and sustainable processes.',
-      impact: 'Created 100% biodegradable formulations with 90% natural ingredients.',
-      image: 'https://images.pexels.com/photos/4465831/pexels-photo-4465831.jpeg',
-      tags: ['Cosmetics', 'Natural Products', 'Sustainability']
-    }
-  ],
-  certifications: [
-    {
-      id: '1',
-      name: 'Green Chemistry Professional Certificate',
-      platform: 'American Chemical Society',
-      year: '2023',
-      summary: 'Advanced certification in sustainable chemical processes and environmental impact assessment.'
+      title: 'Ambient Air',
+      summary: 'Ambient air quality monitoring using a High-Volume Air Sampler — particulate matter and gaseous pollutants.',
+      impact: 'Sampling and analysis aligned to IS 5182 and CPCB guidelines.',
+      image: 'https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg',
+      tags: ['IS 5182', 'High-Volume Sampler', 'Air Quality']
     },
     {
-      id: '2',
-      name: 'Chemical Safety Management',
-      platform: 'OSHA',
-      year: '2022',
-      summary: 'Comprehensive training in workplace chemical safety and hazard communication.'
+      id: '4',
+      title: 'Stack Emission',
+      summary: 'Working exposure to stack-emission monitoring for industrial sources — sampling support and analysis.',
+      impact: 'Supports emission compliance reporting for industrial clients.',
+      image: 'https://images.pexels.com/photos/3735747/pexels-photo-3735747.jpeg',
+      tags: ['Stack Monitoring', 'Industrial Compliance', 'CPCB']
+    },
+    {
+      id: '5',
+      title: 'Noise Monitoring',
+      summary: 'Noise level measurement using a Sound Level Meter for ambient and workplace environments.',
+      impact: 'Day and night ambient noise measurements aligned to CPCB norms.',
+      image: 'https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg',
+      tags: ['Sound Level Meter', 'Ambient Noise', 'Workplace']
+    },
+    {
+      id: '6',
+      title: 'Illumination (Lux)',
+      summary: 'Illumination surveys using a Lux Meter for workplaces and facilities.',
+      impact: 'Verifies lighting adequacy against workplace standards.',
+      image: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg',
+      tags: ['Lux Meter', 'Workplace Survey', 'Compliance']
     }
   ],
+  certifications: [],
   blogPosts: [
     {
       id: '1',
-      title: 'The Future of Green Chemistry in Agriculture',
-      slug: 'future-green-chemistry-agriculture',
-      body: 'Exploring how sustainable chemical practices are revolutionizing modern farming...',
-      image: 'https://images.pexels.com/photos/1468379/pexels-photo-1468379.jpeg',
-      tags: ['Green Chemistry', 'Agriculture', 'Sustainability'],
-      publishDate: '2024-01-15'
+      title: 'Why NABL Accreditation Matters in Water Testing',
+      slug: 'why-nabl-accreditation-matters-water-testing',
+      body: 'What ISO/IEC 17025 accreditation means in practice — calibration, QC checks and traceable, decision-ready results...',
+      image: 'https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg',
+      tags: ['NABL', 'ISO 17025', 'Water Testing'],
+      publishDate: '2026-01-15'
     }
   ],
   skills: [
-    { id: '1', name: 'Organic Chemistry', category: 'Chemistry', level: 95 },
-    { id: '2', name: 'Analytical Chemistry', category: 'Chemistry', level: 90 },
-    { id: '3', name: 'Green Chemistry', category: 'Chemistry', level: 88 },
-    { id: '4', name: 'Spectroscopy', category: 'Chemistry', level: 85 },
-    { id: '5', name: 'Python', category: 'Software', level: 75 },
-    { id: '6', name: 'R', category: 'Software', level: 70 },
-    { id: '7', name: 'Leadership', category: 'Soft Skills', level: 82 },
-    { id: '8', name: 'Project Management', category: 'Soft Skills', level: 78 }
+    { id: '1', name: 'Water & Wastewater Analysis', category: 'Chemistry', level: 92 },
+    { id: '2', name: 'Wet Chemistry & Titrimetric Analysis', category: 'Chemistry', level: 90 },
+    { id: '3', name: 'UV-Vis Colorimetric Analysis', category: 'Chemistry', level: 88 },
+    { id: '4', name: 'Instrument Calibration & QC', category: 'Chemistry', level: 87 },
+    { id: '5', name: 'MS Excel & Data Reporting', category: 'Software', level: 80 },
+    { id: '6', name: 'NABL / ISO 17025 Documentation', category: 'Chemistry', level: 85 },
+    { id: '7', name: 'Attention to Detail', category: 'Soft Skills', level: 90 },
+    { id: '8', name: 'Teamwork', category: 'Soft Skills', level: 85 }
   ]
 };
 
@@ -152,29 +154,32 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const savedData = localStorage.getItem('portfolioContent');
-    if (savedData) {
-      const data = JSON.parse(savedData);
-      setExperiences(data.experiences || initialData.experiences);
-      setProjects(data.projects || initialData.projects);
-      setCertifications(data.certifications || initialData.certifications);
-      setBlogPosts(data.blogPosts || initialData.blogPosts);
-      setSkills(data.skills || initialData.skills);
-    } else {
-      setExperiences(initialData.experiences);
-      setProjects(initialData.projects);
-      setCertifications(initialData.certifications);
-      setBlogPosts(initialData.blogPosts);
-      setSkills(initialData.skills);
+    // Fall back to the seed data whenever a stored list is missing OR empty,
+    // so a bad/partial localStorage write can never blank out the site.
+    let data: Partial<typeof initialData> = {};
+    try {
+      data = JSON.parse(localStorage.getItem('portfolioContent_v3') || '{}');
+    } catch {
+      data = {};
     }
+    setExperiences(data.experiences?.length ? data.experiences : initialData.experiences);
+    setProjects(data.projects?.length ? data.projects : initialData.projects);
+    setCertifications(data.certifications?.length ? data.certifications : initialData.certifications);
+    setBlogPosts(data.blogPosts?.length ? data.blogPosts : initialData.blogPosts);
+    setSkills(data.skills?.length ? data.skills : initialData.skills);
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
+    // Never persist before the initial load has happened (this used to
+    // overwrite storage with empty arrays on mount).
+    if (!isLoaded) return;
     const data = { experiences, projects, certifications, blogPosts, skills };
-    localStorage.setItem('portfolioContent', JSON.stringify(data));
-  }, [experiences, projects, certifications, blogPosts, skills]);
+    localStorage.setItem('portfolioContent_v3', JSON.stringify(data));
+  }, [isLoaded, experiences, projects, certifications, blogPosts, skills]);
 
   const addExperience = (experience: Omit<Experience, 'id'>) => {
     const newExperience = { ...experience, id: Date.now().toString() };

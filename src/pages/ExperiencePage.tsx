@@ -8,44 +8,27 @@ interface ExperienceProps {
 
 const experiences = [
   {
-    role: "Environmental Testing Researcher",
-    org: "Agricultural & Industrial Clients",
-    date: "06/2022 – Present",
-    location: "Varanasi, UP",
+    role: "Chemical Analyst / QC Chemist",
+    org: "Eco Care Instruments Pvt. Ltd. — NABL-accredited (ISO/IEC 17025) environmental & water testing lab",
+    date: "Dec 2025 – Present",
+    location: "New Delhi",
     points: [
-      "Conducted soil pH and nutrient analysis for local farmers.",
-      "Performed chemical compatibility tests for fertilizers.",
-      "Developed bio-fertilizer solutions for 50+ farmers.",
+      "Analyse drinking water, groundwater and wastewater for 15+ parameters (pH, TDS, hardness, alkalinity, chloride, sulphate, fluoride, nitrate, COD, BOD, heavy metals) as per IS 3025, APHA & IS 10500.",
+      "Perform wet-chemistry titrations, gravimetric and UV-Vis colorimetric analysis, and sample digestion for heavy-metal testing.",
+      "Handle soil/sediment and ambient-air monitoring, with exposure to stack, noise and illumination testing.",
+      "Maintain calibration, QC checks (blank/duplicate/spike) and NABL-format reporting for CPCB/SPCB and clients."
     ]
   },
   {
-    role: "Chemical Safety Auditor",
-    org: "Educational Institutions & Industries",
-    date: "01/2022 – 04/2024",
-    location: "Varanasi, UP",
+    role: "Key Achievements",
+    org: "Highlights from the lab",
+    date: "Dec 2025 – Present",
+    location: "New Delhi",
     points: [
-      "Audited labs for safety compliance in schools and colleges.",
-      "Prepared regulatory documentation for chemical handling."
-    ]
-  },
-  {
-    role: "Laboratory Analysis Consultant",
-    org: "Small Businesses",
-    date: "03/2022 – 02/2024",
-    location: "Varanasi, UP",
-    points: [
-      "Provided water testing for restaurants and treatment plants.",
-      "Supported QC for soft drinks and ice-cream makers."
-    ]
-  },
-  {
-    role: "Chemistry Content Developer",
-    org: "Online Education Platforms",
-    date: "03/2021 – Present",
-    location: "Remote",
-    points: [
-      "Created educational content and experiment guides.",
-      "Worked on course planning with senior product managers."
+      "Independent Testing: handle daily water & wastewater analysis end-to-end with accurate, reproducible results.",
+      "Method Command: strong practical grip on IS 3025 / APHA wet-chemistry and UV-Vis methods in a short span.",
+      "Quality Discipline: maintain NABL / ISO 17025 documentation and QC for reliable, traceable data.",
+      "Multi-Domain Exposure: experience across water, soil and air testing in a single accredited lab."
     ]
   }
 ];
@@ -68,7 +51,7 @@ const ExperiencePage: React.FC<ExperienceProps> = ({ darkMode }) => {
             Experience
           </motion.h2>
           <motion.p variants={fadeInUp} className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            Key professional roles and research-based work experience in chemistry and environmental sciences.
+            QC / analytical chemistry experience in a NABL-accredited water and environmental testing laboratory.
           </motion.p>
         </motion.div>
 

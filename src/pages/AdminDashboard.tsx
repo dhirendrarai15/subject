@@ -638,7 +638,7 @@ const FormModal = ({ type, item, onSave, onClose }: any) => {
                   type="text"
                   value={formData.tags?.join(', ') || ''}
                   onChange={handleTagsChange}
-                  placeholder="Green Chemistry, Agriculture, Sustainability"
+                  placeholder="Water Testing, NABL, Quality Control"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>

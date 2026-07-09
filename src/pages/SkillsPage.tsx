@@ -14,6 +14,8 @@ const SkillsPage: React.FC<SkillsProps> = ({ darkMode }) => {
 
   const categoryIcons = {
     analytical: Search,
+    instruments: Beaker,
+    quality: FlaskConical,
     software: Code,
     research: FlaskConical,
     laboratory: Beaker,
@@ -23,6 +25,8 @@ const SkillsPage: React.FC<SkillsProps> = ({ darkMode }) => {
 
   const categoryColors = {
     analytical: 'from-blue-500 to-cyan-500',
+    instruments: 'from-emerald-500 to-teal-500',
+    quality: 'from-orange-500 to-red-500',
     software: 'from-purple-500 to-pink-500',
     research: 'from-emerald-500 to-teal-500',
     laboratory: 'from-orange-500 to-red-500',
@@ -65,7 +69,7 @@ const SkillsPage: React.FC<SkillsProps> = ({ darkMode }) => {
               darkMode ? 'text-gray-300' : 'text-gray-600'
             }`}
           >
-            Technical capabilities and professional competencies developed through years of research
+            Analytical techniques, instruments and quality systems used hands-on in a NABL-accredited (ISO/IEC 17025) laboratory
           </motion.p>
         </motion.div>
 
@@ -83,14 +87,16 @@ const SkillsPage: React.FC<SkillsProps> = ({ darkMode }) => {
               <motion.div
                 key={category}
                 variants={fadeInUp}
-                className={`p-8 rounded-2xl transition-all duration-300 ${
-                  darkMode 
-                    ? 'bg-gray-800 border border-gray-700' 
-                    : 'bg-gray-50 border border-gray-200 hover:shadow-lg'
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className={`group p-8 rounded-2xl transition-all duration-300 ${
+                  darkMode
+                    ? 'bg-gray-800 border border-gray-700'
+                    : 'bg-gray-50 border border-gray-200 hover:shadow-xl'
                 }`}
               >
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${colorClass} flex items-center justify-center`}>
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${colorClass} flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className={`text-xl font-bold capitalize ${
@@ -139,6 +145,16 @@ const SkillsPage: React.FC<SkillsProps> = ({ darkMode }) => {
             );
           })}
         </motion.div>
+
+        <motion.p
+          variants={fadeInUp}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className={`text-center mt-12 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
+        >
+          Also proficient with Hot Air Oven, Muffle Furnace, Analytical Balance, High-Volume Air Sampler, Sound Level Meter and Lux Meter.
+          Working knowledge of AAS, GC / GC-MS, HPLC and ICP-MS.
+        </motion.p>
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Github, Linkedin, Mail, Twitter, MapPin, Phone } from 'lucide-react';
+import { User, Github, Linkedin, Mail, Twitter, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -15,8 +15,9 @@ const Footer: React.FC = () => {
               <span className="font-bold text-xl text-white">Chandani Rai</span>
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed">
-              Chemistry researcher and sustainability advocate focused on green chemistry, 
-              agricultural innovation, and sustainable materials development for a better tomorrow.
+              QC / Analytical Chemist (M.Sc Chemistry) specialising in physico-chemical and
+              instrumental analysis of water, wastewater and environmental samples in a
+              NABL-accredited (ISO/IEC 17025) laboratory.
             </p>
             
             {/* Contact Info */}
@@ -26,12 +27,8 @@ const Footer: React.FC = () => {
                 <span>chandani.rai1415@gmail.com</span>
               </div>
               <div className="flex items-center text-gray-300">
-                <Phone className="h-4 w-4 mr-3" />
-                <span>+91- 7275658524</span>
-              </div>
-              <div className="flex items-center text-gray-300">
                 <MapPin className="h-4 w-4 mr-3" />
-                <span>Varanasi, Uttar Pradesh</span>
+                <span>Delhi, India</span>
               </div>
             </div>
             
@@ -46,7 +43,7 @@ const Footer: React.FC = () => {
                 <Linkedin className="h-5 w-5 text-white" />
               </a>
               <a 
-                href="hhttps://github.com/chandanirai1415-dev" 
+                href="https://github.com/chandanirai1415-dev"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
@@ -54,7 +51,7 @@ const Footer: React.FC = () => {
                 <Github className="h-5 w-5 text-white" />
               </a>
               <a 
-                href="hhttps://twitter.com/Rai1415Rai" 
+                href="https://twitter.com/Rai1415Rai"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors"
@@ -76,7 +73,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li><a href="/about" className="footer-link">About Me</a></li>
               <li><a href="/experience" className="footer-link">Experience</a></li>
-              <li><a href="/projects" className="footer-link">Projects</a></li>
+              <li><a href="/projects" className="footer-link">Testing Domains</a></li>
               <li><a href="/skills" className="footer-link">Skills</a></li>
               <li><a href="/blog" className="footer-link">Blog</a></li>
               <li><a href="/contact" className="footer-link">Contact</a></li>
@@ -85,14 +82,14 @@ const Footer: React.FC = () => {
 
           {/* Research Areas */}
           <div>
-            <h3 className="font-semibold text-lg mb-6 text-white">Research Focus</h3>
+            <h3 className="font-semibold text-lg mb-6 text-white">Testing Domains</h3>
             <ul className="space-y-3">
-              <li className="text-gray-300">Green Chemistry</li>
-              <li className="text-gray-300">Agricultural Innovation</li>
-              <li className="text-gray-300">Sustainable Materials</li>
-              <li className="text-gray-300">Environmental Safety</li>
-              <li className="text-gray-300">Water Purification</li>
-              <li className="text-gray-300">Process Optimization</li>
+              <li className="text-gray-300">Drinking / Ground / Waste Water</li>
+              <li className="text-gray-300">Soil & Sediment</li>
+              <li className="text-gray-300">Ambient Air</li>
+              <li className="text-gray-300">Stack Emission</li>
+              <li className="text-gray-300">Noise</li>
+              <li className="text-gray-300">Illumination (Lux)</li>
             </ul>
           </div>
         </div>
@@ -101,7 +98,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-700 pt-8 pb-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} StreamX. All rights reserved.
+              © {new Date().getFullYear()} Chandani Rai. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <a href="/privacy" className="footer-link">Privacy Policy</a>
